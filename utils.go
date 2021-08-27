@@ -20,6 +20,8 @@ func getStatType(buf []byte) rsyslogType {
 		return rsyslogDynafileCache
 	} else if strings.Contains(line, "omfwd") {
 		return rsyslogForward
+	} else if strings.Contains(line, "mmkubernetes") {
+		return rsyslogKubernetes
 	}
 	return rsyslogUnknown
 }
