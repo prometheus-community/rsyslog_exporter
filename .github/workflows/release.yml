@@ -3,7 +3,12 @@ name: release
 on:
   release:
     types:
+      - published
+      - unpublished
       - created
+      - edited
+      - prereleased
+      - released
 
 jobs:
   release:
