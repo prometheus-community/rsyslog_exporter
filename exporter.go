@@ -22,6 +22,8 @@ const (
 	rsyslogDynStat
 	rsyslogDynafileCache
 	rsyslogInputIMDUP
+	rsyslogForward
+	rsyslogKubernetes
 )
 
 type rsyslogExporter struct {
@@ -110,6 +112,22 @@ func (re *rsyslogExporter) handleStatLine(rawbuf []byte) error {
 			return err
 		}
 		for _, p := range d.toPoints() {
+			re.set(p)
+		}
+	case rsyslogForward:
+		f, err := newForwardFromJSON(buf)
+		if err != nil {
+			return err
+		}
+		for _, p := range f.toPoints() {
+			re.set(p)
+		}
+	case rsyslogKubernetes:
+		k, err := newKubernetesFromJSON(buf)
+		if err != nil {
+			return err
+		}
+		for _, p := range k.toPoints() {
 			re.set(p)
 		}
 
