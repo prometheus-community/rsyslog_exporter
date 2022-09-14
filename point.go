@@ -23,10 +23,14 @@ type point struct {
 }
 
 func (p *point) promDescription() *prometheus.Desc {
+	variableLabels := []string{}
+	if p.promLabelName() != "" {
+		variableLabels = []string{p.promLabelName()}
+	}
 	return prometheus.NewDesc(
 		prometheus.BuildFQName("", "rsyslog", p.Name),
 		p.Description,
-		[]string{p.promLabelName()},
+		variableLabels,
 		nil,
 	)
 }

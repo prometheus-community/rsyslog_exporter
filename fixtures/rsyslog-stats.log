@@ -1,4 +1,5 @@
 2017-08-30T08:09:54.776051+00:00 some-node.example.org rsyslogd-pstats: { "name": "global", "origin": "dynstats", "values": { } }
+2017-08-30T08:09:54.776052+00:00 some-node.example.org rsyslogd-pstats: { "name": "global", "origin": "percentile", "values": { } }
 2017-08-30T08:09:54.776072+00:00 some-node.example.org rsyslogd-pstats: { "name": "imuxsock", "origin": "imuxsock", "submitted": 9, "ratelimit.discarded": 0, "ratelimit.numratelimiters": 0 }
 2017-08-30T08:09:54.776082+00:00 some-node.example.org rsyslogd-pstats: { "name": "action 0", "origin": "core.action", "processed": 0, "failed": 0, "suspended": 0, "suspended.duration": 0, "resumed": 0 }
 2017-08-30T08:09:54.776088+00:00 some-node.example.org rsyslogd-pstats: { "name": "to_exporter_2", "origin": "core.action", "processed": 0, "failed": 0, "suspended": 0, "suspended.duration": 0, "resumed": 0 }

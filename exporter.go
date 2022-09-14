@@ -171,22 +171,35 @@ func (re *rsyslogExporter) Collect(ch chan<- prometheus.Metric) {
 			continue
 		}
 
+		labelValues := []string{}
+		if p.promLabelValue() != "" {
+			labelValues = []string{p.promLabelValue()}
+		}
 		metric := prometheus.MustNewConstMetric(
 			p.promDescription(),
 			p.promType(),
 			p.promValue(),
-			p.promLabelValue(),
+			labelValues...,
 		)
 
 		ch <- metric
 	}
 }
 
-func (re *rsyslogExporter) run() {
+func (re *rsyslogExporter) run(silent bool) {
+	errorPoint := &point{
+		Name:        "stats_line_errors",
+		Type:        counter,
+		Description: "Counts errors during stats line handling",
+	}
+	re.set(errorPoint)
 	for re.scanner.Scan() {
 		err := re.handleStatLine(re.scanner.Bytes())
 		if err != nil {
-			log.Printf("error handling stats line: %v, line was: %s", err, re.scanner.Bytes())
+			errorPoint.Value += 1
+			if !silent {
+				log.Printf("error handling stats line: %v, line was: %s", err, re.scanner.Bytes())
+			}
 		}
 	}
 	if err := re.scanner.Err(); err != nil {
