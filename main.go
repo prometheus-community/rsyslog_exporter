@@ -17,6 +17,7 @@ var (
 	metricPath    = flag.String("web.telemetry-path", "/metrics", "Path under which to expose metrics.")
 	certPath      = flag.String("tls.server-crt", "", "Path to PEM encoded file containing TLS server cert.")
 	keyPath       = flag.String("tls.server-key", "", "Path to PEM encoded file containing TLS server key (unencyrpted).")
+	silent        = flag.Bool("silent", false, "Disable logging of errors in handling stats lines")
 )
 
 func main() {
@@ -37,7 +38,7 @@ func main() {
 	}()
 
 	go func() {
-		exporter.run()
+		exporter.run(*silent)
 	}()
 
 	prometheus.MustRegister(exporter)
