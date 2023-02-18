@@ -22,6 +22,10 @@ func getStatType(buf []byte) rsyslogType {
 		return rsyslogForward
 	} else if strings.Contains(line, "mmkubernetes") {
 		return rsyslogKubernetes
+	} else if strings.Contains(line, "percentile.bucket") {
+		return rsyslogPercentileBucket
+	} else if strings.Contains(line, "percentile") {
+		return rsyslogPercentile
 	}
 	return rsyslogUnknown
 }
