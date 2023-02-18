@@ -174,7 +174,7 @@ func TestPercentileBucketToPoints(t *testing.T) {
 		},
 		"msg_per_host|window_count": point{
 			Name:        "host_statistics_percentile_bucket",
-			Type:        counter,
+			Type:        gauge,
 			Value:       1000,
 			Description: "percentile bucket statistics host_statistics",
 			LabelName:   "bucket",

@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"strings"
 )
 
 type percentileStat struct {
@@ -26,13 +25,9 @@ func (i *percentileStat) toPoints() []*point {
 
 	for name, value := range i.Values {
 		if i.Origin == "percentile.bucket" {
-			bucketMetricType := gauge
-			if strings.Contains(name, "count") {
-				bucketMetricType = counter
-			}
 			points = append(points, &point{
 				Name:        fmt.Sprintf("%s_percentile_bucket", i.Name),
-				Type:        bucketMetricType,
+				Type:        gauge,
 				Value:       value,
 				Description: fmt.Sprintf("percentile bucket statistics %s", i.Name),
 				LabelName:   "bucket",
