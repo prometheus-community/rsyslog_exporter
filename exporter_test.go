@@ -258,6 +258,69 @@ func TestHandleLineWithDynafileCache(t *testing.T) {
 	testHelper(t, dynafileCacheLog, tests)
 }
 
+func TestHandleLineWithPercentileGlobal(t *testing.T) {
+	tests := []*testUnit{
+		&testUnit{
+			Name:       "percentile_global",
+			Val:        0,
+			LabelValue: "host_statistics.ops_overflow",
+		},
+		&testUnit{
+			Name:       "percentile_global",
+			Val:        1,
+			LabelValue: "host_statistics.new_metric_add",
+		},
+	}
+
+	log := []byte(`2022-02-18T19:11:12.672935+00:00 some-node.example.org rsyslogd-pstats: { "name": "global", "origin": "percentile", "values": { "host_statistics.new_metric_add": 1, "host_statistics.ops_overflow": 0 } }`)
+
+	testHelper(t, log, tests)
+}
+
+func TestHandleLineWithPercentileBucket(t *testing.T) {
+	tests := []*testUnit{
+		&testUnit{
+			Name:       "host_statistics_percentile_bucket",
+			Val:        1950,
+			LabelValue: "msg_per_host|p95",
+		},
+		&testUnit{
+			Name:       "host_statistics_percentile_bucket",
+			Val:        1500,
+			LabelValue: "msg_per_host|p50",
+		},
+		&testUnit{
+			Name:       "host_statistics_percentile_bucket",
+			Val:        1990,
+			LabelValue: "msg_per_host|p99",
+		},
+		&testUnit{
+			Name:       "host_statistics_percentile_bucket",
+			Val:        1001,
+			LabelValue: "msg_per_host|window_min",
+		},
+		&testUnit{
+			Name:       "host_statistics_percentile_bucket",
+			Val:        2000,
+			LabelValue: "msg_per_host|window_max",
+		},
+		&testUnit{
+			Name:       "host_statistics_percentile_bucket",
+			Val:        1500500,
+			LabelValue: "msg_per_host|window_sum",
+		},
+		&testUnit{
+			Name:       "host_statistics_percentile_bucket",
+			Val:        1000,
+			LabelValue: "msg_per_host|window_count",
+		},
+	}
+
+	log := []byte(`2022-02-18T19:11:12.672935+00:00 some-node.example.org rsyslogd-pstats: { "name": "host_statistics", "origin": "percentile.bucket", "values": { "msg_per_host|p95": 1950, "msg_per_host|p50": 1500, "msg_per_host|p99": 1990, "msg_per_host|window_min": 1001, "msg_per_host|window_max": 2000, "msg_per_host|window_sum": 1500500, "msg_per_host|window_count": 1000 } }`)
+
+	testHelper(t, log, tests)
+}
+
 func TestHandleUnknown(t *testing.T) {
 	unknownLog := []byte(`2017-08-30T08:10:04.786350+00:00 some-node.example.org rsyslogd-pstats: {"a":"b"}`)
 

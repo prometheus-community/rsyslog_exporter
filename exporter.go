@@ -24,6 +24,8 @@ const (
 	rsyslogInputIMDUP
 	rsyslogForward
 	rsyslogKubernetes
+	rsyslogPercentile
+	rsyslogPercentileBucket
 )
 
 type rsyslogExporter struct {
@@ -128,6 +130,15 @@ func (re *rsyslogExporter) handleStatLine(rawbuf []byte) error {
 			return err
 		}
 		for _, p := range k.toPoints() {
+			re.set(p)
+		}
+
+	case rsyslogPercentile, rsyslogPercentileBucket:
+		p, err := newPercentileStatFromJSON(buf)
+		if err != nil {
+			return err
+		}
+		for _, p := range p.toPoints() {
 			re.set(p)
 		}
 
