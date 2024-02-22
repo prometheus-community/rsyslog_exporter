@@ -170,7 +170,7 @@ func (o *omkafka) toPoints() []*point {
 		Name:        "omkafka_errors",
 		Type:        counter,
 		Value:       o.ErrorsTimedOut,
-		Description: failuresDescription,
+		Description: errorsDescription,
 		LabelName:   "type",
 		LabelValue:  "timed_out",
 	}
@@ -179,7 +179,7 @@ func (o *omkafka) toPoints() []*point {
 		Name:        "omkafka_errors",
 		Type:        counter,
 		Value:       o.ErrorsTransport,
-		Description: failuresDescription,
+		Description: errorsDescription,
 		LabelName:   "type",
 		LabelValue:  "transport",
 	}
@@ -188,7 +188,7 @@ func (o *omkafka) toPoints() []*point {
 		Name:        "omkafka_errors",
 		Type:        counter,
 		Value:       o.ErrorsBrokerDown,
-		Description: failuresDescription,
+		Description: errorsDescription,
 		LabelName:   "type",
 		LabelValue:  "broker_down",
 	}
@@ -197,7 +197,7 @@ func (o *omkafka) toPoints() []*point {
 		Name:        "omkafka_errors",
 		Type:        counter,
 		Value:       o.ErrorsAuth,
-		Description: failuresDescription,
+		Description: errorsDescription,
 		LabelName:   "type",
 		LabelValue:  "auth",
 	}
@@ -206,7 +206,7 @@ func (o *omkafka) toPoints() []*point {
 		Name:        "omkafka_errors",
 		Type:        counter,
 		Value:       o.ErrorsSSL,
-		Description: failuresDescription,
+		Description: errorsDescription,
 		LabelName:   "type",
 		LabelValue:  "ssl",
 	}
@@ -215,7 +215,7 @@ func (o *omkafka) toPoints() []*point {
 		Name:        "omkafka_errors",
 		Type:        counter,
 		Value:       o.ErrorsOther,
-		Description: failuresDescription,
+		Description: errorsDescription,
 		LabelName:   "type",
 		LabelValue:  "other",
 	}
