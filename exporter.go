@@ -24,6 +24,7 @@ const (
 	rsyslogInputIMDUP
 	rsyslogForward
 	rsyslogKubernetes
+	rsyslogOmkafka
 )
 
 type rsyslogExporter struct {
@@ -128,6 +129,14 @@ func (re *rsyslogExporter) handleStatLine(rawbuf []byte) error {
 			return err
 		}
 		for _, p := range k.toPoints() {
+			re.set(p)
+		}
+	case rsyslogOmkafka:
+		o, err := newOmkafkaFromJSON(buf)
+		if err != nil {
+			return err
+		}
+		for _, p := range o.toPoints() {
 			re.set(p)
 		}
 
