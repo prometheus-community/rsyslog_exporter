@@ -23,10 +23,13 @@ changelog:
       - Merge pull request
       - Merge branch
 archives:
-  - name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}"
-    replacements:
-      linux: Linux
-      amd64: x86_64
+  - name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_
+      {{- if eq .Os "linux" }}Linux
+      {{- else }}{{ .Os }}{{ end }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
 nfpms:
   - package_name: "rsyslog-exporter"
     homepage: https://github.com/aleroyer/rsyslog_exporter
