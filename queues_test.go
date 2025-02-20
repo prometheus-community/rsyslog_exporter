@@ -71,12 +71,6 @@ func TestQueueToPoints(t *testing.T) {
 		t.Errorf("want '%s', got '%s'", want, got)
 	}
 
-	if want, got := int64(10), point.Value; want != got {
-	}
-
-	if want, got := gauge, point.Type; want != got {
-	}
-
 	if want, got := "main Q", point.LabelValue; want != got {
 		t.Errorf("wanted '%s', got '%s'", want, got)
 	}

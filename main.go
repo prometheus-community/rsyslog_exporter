@@ -57,6 +57,7 @@ func main() {
 	prometheus.MustRegister(exporter)
 	http.Handle(*metricPath, promhttp.Handler())
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		// nolint:errcheck
 		w.Write([]byte(`<html>
 <head><title>Rsyslog exporter</title></head>
 <body>
