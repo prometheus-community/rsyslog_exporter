@@ -20,6 +20,7 @@ import (
 
 func testHelper(t *testing.T, line []byte, testCase []*testUnit) {
 	exporter := newRsyslogExporter()
+	// nolint:errcheck
 	exporter.handleStatLine(line)
 
 	for _, k := range exporter.keys() {
@@ -37,6 +38,7 @@ func testHelper(t *testing.T, line []byte, testCase []*testUnit) {
 		}
 	}
 
+	// nolint:errcheck
 	exporter.handleStatLine(line)
 
 	for _, item := range testCase {
@@ -275,6 +277,7 @@ func TestHandleUnknown(t *testing.T) {
 	unknownLog := []byte(`2017-08-30T08:10:04.786350+00:00 some-node.example.org rsyslogd-pstats: {"a":"b"}`)
 
 	exporter := newRsyslogExporter()
+	// nolint:errcheck
 	exporter.handleStatLine(unknownLog)
 
 	if want, got := 0, len(exporter.keys()); want != got {

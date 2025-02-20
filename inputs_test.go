@@ -19,7 +19,7 @@ var (
 	inputLog = []byte(`{"name":"test_input", "origin":"imuxsock", "submitted":1000}`)
 )
 
-func TestgetInput(t *testing.T) {
+func TestGetInput(t *testing.T) {
 	logType := getStatType(inputLog)
 	if logType != rsyslogInput {
 		t.Errorf("detected pstat type should be %d but is %d", rsyslogInput, logType)

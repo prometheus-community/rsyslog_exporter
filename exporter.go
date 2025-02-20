@@ -41,8 +41,6 @@ const (
 )
 
 type rsyslogExporter struct {
-	started bool
-	logfile *os.File
 	scanner *bufio.Scanner
 	pointStore
 }
@@ -74,6 +72,7 @@ func (re *rsyslogExporter) handleStatLine(rawbuf []byte) error {
 			return err
 		}
 		for _, p := range a.toPoints() {
+			// nolint:errcheck
 			re.set(p)
 		}
 
@@ -83,6 +82,7 @@ func (re *rsyslogExporter) handleStatLine(rawbuf []byte) error {
 			return err
 		}
 		for _, p := range i.toPoints() {
+			// nolint:errcheck
 			re.set(p)
 		}
 
@@ -92,6 +92,7 @@ func (re *rsyslogExporter) handleStatLine(rawbuf []byte) error {
 			return err
 		}
 		for _, p := range u.toPoints() {
+			// nolint:errcheck
 			re.set(p)
 		}
 
@@ -101,6 +102,7 @@ func (re *rsyslogExporter) handleStatLine(rawbuf []byte) error {
 			return err
 		}
 		for _, p := range q.toPoints() {
+			// nolint:errcheck
 			re.set(p)
 		}
 
@@ -110,6 +112,7 @@ func (re *rsyslogExporter) handleStatLine(rawbuf []byte) error {
 			return err
 		}
 		for _, p := range r.toPoints() {
+			// nolint:errcheck
 			re.set(p)
 		}
 	case rsyslogDynStat:
@@ -118,6 +121,7 @@ func (re *rsyslogExporter) handleStatLine(rawbuf []byte) error {
 			return err
 		}
 		for _, p := range s.toPoints() {
+			// nolint:errcheck
 			re.set(p)
 		}
 	case rsyslogDynafileCache:
@@ -126,6 +130,7 @@ func (re *rsyslogExporter) handleStatLine(rawbuf []byte) error {
 			return err
 		}
 		for _, p := range d.toPoints() {
+			// nolint:errcheck
 			re.set(p)
 		}
 	case rsyslogForward:
@@ -134,6 +139,7 @@ func (re *rsyslogExporter) handleStatLine(rawbuf []byte) error {
 			return err
 		}
 		for _, p := range f.toPoints() {
+			// nolint:errcheck
 			re.set(p)
 		}
 	case rsyslogKubernetes:
@@ -142,6 +148,7 @@ func (re *rsyslogExporter) handleStatLine(rawbuf []byte) error {
 			return err
 		}
 		for _, p := range k.toPoints() {
+			// nolint:errcheck
 			re.set(p)
 		}
 	case rsyslogOmkafka:
@@ -150,6 +157,7 @@ func (re *rsyslogExporter) handleStatLine(rawbuf []byte) error {
 			return err
 		}
 		for _, p := range o.toPoints() {
+			// nolint:errcheck
 			re.set(p)
 		}
 
@@ -214,6 +222,7 @@ func (re *rsyslogExporter) run(silent bool) {
 		Type:        counter,
 		Description: "Counts errors during stats line handling",
 	}
+	// nolint:errcheck
 	re.set(errorPoint)
 	for re.scanner.Scan() {
 		err := re.handleStatLine(re.scanner.Bytes())

@@ -19,13 +19,13 @@ var (
 	inputIMUDPLog = []byte(`{ "name": "test_input_imudp", "origin": "imudp", "called.recvmmsg":1000, "called.recvmsg":2000, "msgs.received":500}`)
 )
 
-func TestgetInputIMUDP(t *testing.T) {
+func TestGetInputIMUDP(t *testing.T) {
 	logType := getStatType(inputIMUDPLog)
 	if logType != rsyslogInputIMDUP {
 		t.Errorf("detected pstat type should be %d but is %d", rsyslogInputIMDUP, logType)
 	}
 
-	pstat, err := newInputIMUDPFromJSON([]byte(inputLog))
+	pstat, err := newInputIMUDPFromJSON([]byte(inputIMUDPLog))
 	if err != nil {
 		t.Fatalf("expected parsing input stat not to fail, got: %v", err)
 	}
@@ -34,11 +34,11 @@ func TestgetInputIMUDP(t *testing.T) {
 		t.Errorf("want '%s', got '%s'", want, got)
 	}
 
-	if want, got := int64(1000), pstat.Recvmsg; want != got {
+	if want, got := int64(1000), pstat.Recvmmsg; want != got {
 		t.Errorf("want '%d', got '%d'", want, got)
 	}
 
-	if want, got := int64(2000), pstat.Recvmmsg; want != got {
+	if want, got := int64(2000), pstat.Recvmsg; want != got {
 		t.Errorf("want '%d', got '%d'", want, got)
 	}
 
