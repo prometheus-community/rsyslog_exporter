@@ -31,6 +31,7 @@ var (
 	certPath      = flag.String("tls.server-crt", "", "Path to PEM encoded file containing TLS server cert.")
 	keyPath       = flag.String("tls.server-key", "", "Path to PEM encoded file containing TLS server key (unencyrpted).")
 	silent        = flag.Bool("silent", false, "Disable logging of errors in handling stats lines")
+	ignoreUnknown = flag.Bool("ignore-unknown", false, "Disable logging of unknown pstat type errors, other stats line errors are still logged")
 )
 
 func main() {
@@ -51,7 +52,7 @@ func main() {
 	}()
 
 	go func() {
-		exporter.run(*silent)
+		exporter.run(*silent, *ignoreUnknown)
 	}()
 
 	prometheus.MustRegister(exporter)

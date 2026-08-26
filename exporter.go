@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"sync"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -39,6 +40,8 @@ const (
 	rsyslogKubernetes
 	rsyslogOmkafka
 )
+
+const unknownStatTypeError = "unknown pstat type"
 
 type rsyslogExporter struct {
 	scanner *bufio.Scanner
@@ -162,7 +165,7 @@ func (re *rsyslogExporter) handleStatLine(rawbuf []byte) error {
 		}
 
 	default:
-		return fmt.Errorf("unknown pstat type: %v", pstatType)
+		return fmt.Errorf("%s: %v", unknownStatTypeError, pstatType)
 	}
 	return nil
 }
@@ -216,7 +219,7 @@ func (re *rsyslogExporter) Collect(ch chan<- prometheus.Metric) {
 	}
 }
 
-func (re *rsyslogExporter) run(silent bool) {
+func (re *rsyslogExporter) run(silent, ignoreUnknown bool) {
 	errorPoint := &point{
 		Name:        "stats_line_errors",
 		Type:        counter,
@@ -228,7 +231,7 @@ func (re *rsyslogExporter) run(silent bool) {
 		err := re.handleStatLine(re.scanner.Bytes())
 		if err != nil {
 			errorPoint.Value += 1
-			if !silent {
+			if !silent && !(ignoreUnknown && strings.HasPrefix(err.Error(), unknownStatTypeError)) {
 				log.Printf("error handling stats line: %v, line was: %s", err, re.scanner.Bytes())
 			}
 		}

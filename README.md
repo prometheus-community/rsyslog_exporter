@@ -34,6 +34,9 @@ The exporter itself logs back via syslog, this cannot be configured at the momen
   the CA certificate for use with `http.ListenAndServeTLS`
 * `tls.server-key` - default `""` - PEM encoded file containing the unencrypted
   server key for use with `tls.server-crt`
+* `silent` - default `false` - disable logging of all stats line handling errors
+* `ignore-unknown` - default `false` - disable logging of unknown pstat type
+  errors only, other stats line errors are still logged
 
 If you want the exporter to listen for TLS (`https`) you must specify both
 `tls.server-crt` and `tls.server-key`.
