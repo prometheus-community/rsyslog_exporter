@@ -25,7 +25,7 @@ var (
 
 type kubernetes struct {
 	Name                  string `json:"name"`
-	Url                   string
+	URL                   string
 	RecordSeen            int64 `json:"recordseen"`
 	NamespaceMetaSuccess  int64 `json:"namespacemetadatasuccess"`
 	NamespaceMetaNotFound int64 `json:"namespacemetadatanotfound"`
@@ -45,7 +45,7 @@ func newKubernetesFromJSON(b []byte) (*kubernetes, error) {
 	}
 	matches := apiNameRegexp.FindSubmatch([]byte(pstat.Name))
 	if matches != nil {
-		pstat.Url = string(matches[1])
+		pstat.URL = string(matches[1])
 	}
 	return &pstat, nil
 }
@@ -59,7 +59,7 @@ func (k *kubernetes) toPoints() []*point {
 		Value:       k.NamespaceMetaSuccess,
 		Description: "successful fetches of namespace metadata",
 		LabelName:   "url",
-		LabelValue:  k.Url,
+		LabelValue:  k.URL,
 	}
 
 	points[1] = &point{
@@ -68,7 +68,7 @@ func (k *kubernetes) toPoints() []*point {
 		Value:       k.NamespaceMetaNotFound,
 		Description: "notfound fetches of namespace metadata",
 		LabelName:   "url",
-		LabelValue:  k.Url,
+		LabelValue:  k.URL,
 	}
 
 	points[2] = &point{
@@ -77,7 +77,7 @@ func (k *kubernetes) toPoints() []*point {
 		Value:       k.NamespaceMetaBusy,
 		Description: "busy fetches of namespace metadata",
 		LabelName:   "url",
-		LabelValue:  k.Url,
+		LabelValue:  k.URL,
 	}
 
 	points[3] = &point{
@@ -86,7 +86,7 @@ func (k *kubernetes) toPoints() []*point {
 		Value:       k.NamespaceMetaError,
 		Description: "error fetches of namespace metadata",
 		LabelName:   "url",
-		LabelValue:  k.Url,
+		LabelValue:  k.URL,
 	}
 
 	points[4] = &point{
@@ -95,7 +95,7 @@ func (k *kubernetes) toPoints() []*point {
 		Value:       k.PodMetaSuccess,
 		Description: "successful fetches of pod metadata",
 		LabelName:   "url",
-		LabelValue:  k.Url,
+		LabelValue:  k.URL,
 	}
 
 	points[5] = &point{
@@ -104,7 +104,7 @@ func (k *kubernetes) toPoints() []*point {
 		Value:       k.PodMetaNotFound,
 		Description: "notfound fetches of pod metadata",
 		LabelName:   "url",
-		LabelValue:  k.Url,
+		LabelValue:  k.URL,
 	}
 
 	points[6] = &point{
@@ -113,7 +113,7 @@ func (k *kubernetes) toPoints() []*point {
 		Value:       k.PodMetaBusy,
 		Description: "busy fetches of pod metadata",
 		LabelName:   "url",
-		LabelValue:  k.Url,
+		LabelValue:  k.URL,
 	}
 
 	points[7] = &point{
@@ -122,7 +122,7 @@ func (k *kubernetes) toPoints() []*point {
 		Value:       k.PodMetaError,
 		Description: "error fetches of pod metadata",
 		LabelName:   "url",
-		LabelValue:  k.Url,
+		LabelValue:  k.URL,
 	}
 
 	points[8] = &point{
@@ -131,7 +131,7 @@ func (k *kubernetes) toPoints() []*point {
 		Value:       k.RecordSeen,
 		Description: "records fetched from the api",
 		LabelName:   "url",
-		LabelValue:  k.Url,
+		LabelValue:  k.URL,
 	}
 
 	return points
