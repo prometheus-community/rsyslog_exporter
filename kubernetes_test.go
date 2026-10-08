@@ -34,7 +34,7 @@ func TestNewKubernetesFromJSON(t *testing.T) {
 		t.Errorf("wanted '%s', got '%s'", want, got)
 	}
 
-	if want, got := "https://host.domain.tld:6443", pstat.Url; want != got {
+	if want, got := "https://host.domain.tld:6443", pstat.URL; want != got {
 		t.Errorf("wanted '%s', got '%s'", want, got)
 	}
 

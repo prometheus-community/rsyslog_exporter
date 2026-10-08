@@ -1,6 +1,6 @@
 go:
-    # This must match .github/workflows/build.yml.
-    version: 1.23
+    # This must match .github/workflows/ci.yml.
+    version: 1.27
 repository:
     path: github.com/prometheus-community/rsyslog_exporter
 build:
@@ -16,3 +16,13 @@ tarball:
     files:
         - LICENSE
         - NOTICE
+crossbuild:
+    platforms:
+        - aix
+        - darwin
+        - dragonfly
+        - freebsd
+        - illumos
+        - linux
+        - netbsd
+        - openbsd
